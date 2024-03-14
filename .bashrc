@@ -26,22 +26,25 @@ fi
 
 unset rc
 
-free_mem()
-{
+# Custom functions for PS1 prompt
+free_mem() {
     awk '/MemFree/{printf "%.2f\n", $2 / (1024 * 1024)}' /proc/meminfo
 }
 
-net_ip()
-{
+net_ip() {
     ifconfig | awk '/inet 192/{print $2}'
 }
 
-#PS1 Prompt
+git_branch() {
+    git branch 2>/dev/null | grep '\*' | awk '{print $2}'
+}
+
+# PS1 Prompt
 #==========
 # GameCube
 
 # green strawberry
-PS1='\[\e[01;48;5;42m\] $(net_ip) \[\e[01;48;5;12m\] $(free_mem)Gb \[\e[01;48;5;79m\] \A \[\e[01;48;5;87;38;5;42m\] \u \[\e[01;38;5;202;48;5;228m\] \w \[\033[0m\]\n\[\e[01;33m\]> \[\033[0m\]'
+PS1='\[\e[01;48;5;42m\] $(net_ip) \[\e[01;48;5;12m\] $(free_mem)Gb \[\e[01;48;5;79m\] \A \[\e[01;48;5;87;38;5;42m\] \u \[\e[01;38;5;202;48;5;228m\] \w \[\033[0m\] $(git_branch)\n\[\e[01;33m\]> \[\033[0m\]'
 
 # red
 #PS1='\[\e[01;48;5;196m\] $(net_ip) \[\e[01;48;5;202m\] $(free_mem)Gb \[\e[01;48;5;208m\] \A \[\e[01;48;5;226;38;5;202m\] \u \[\e[01;38;5;202;48;5;228m\] \w \[\033[0m\]\n\[\e[01;33m\]> \[\033[0m\]'
